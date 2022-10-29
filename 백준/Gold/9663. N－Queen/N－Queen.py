@@ -1,27 +1,24 @@
-n = int(input())
-
-ans = 0
-row = [0] * n
-
-def is_promising(x):
-    for i in range(x):
-        if row[x] == row[i] or abs(row[x] - row[i]) == abs(x - i):
-            return False
-    
-    return True
-
-def n_queens(x):
-    global ans
-    if x == n:
-        ans += 1
+def back(n):
+    if n == N:
+        global cnt
+        cnt += 1
         return
-
-    else:
-        for i in range(n):
-            # [x, i]에 퀸을 놓겠다.
-            row[x] = i
-            if is_promising(x):
-                n_queens(x+1)
-
-n_queens(0)
-print(ans)
+    
+    for i in range(N):
+        L[n] = i
+        if checkqueen(n):
+            back(n+1)
+    
+def checkqueen(n):
+    for i in range(n):
+        if L[n] == L[i] or n-i == abs(L[i] - L[n]):
+            return False
+        
+    return True
+    
+N = int(input())
+L = [0 for _ in range(N)]
+global cnt
+cnt = 0
+back(0)
+print(cnt)
