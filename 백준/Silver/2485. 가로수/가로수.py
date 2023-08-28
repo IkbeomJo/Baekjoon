@@ -1,32 +1,19 @@
 import sys
-def gcd(n, m):
-    if m < n:
-        m, n = n, m
-    if n == 0:
-        return m
-    if n % m == 0:
-        return n
-    else:
-        return gcd(n, m%n)
+from math import gcd
 
-T = int(input())
-first_value = int(input())
-empty_value = int(input())
-colonnade_between = [empty_value-first_value]
-gcd_value = 1000000000
-cnt = 0
+N = int(input())
+distance = list()
+distance_between = list()
+for _ in range(N):
+    distance.append(int(sys.stdin.readline()))
 
-for _ in range(T-2):
-    x = int(sys.stdin.readline())
-    colonnade_between.append(x - empty_value)
-    empty_value = x
+for i in range(1,N):
+    distance_between.append(distance[i]-distance[i-1])
 
-for i in range(1, T-1):
-    x = gcd(colonnade_between[i],colonnade_between[i-1])
-    if x < gcd_value: gcd_value = x
+g = distance_between[0]
+for j in range(1, N-1):
+    g = gcd(g, distance_between[j])
 
+result = (distance[-1] - distance[0]) // g
 
-for i in range(first_value, first_value+sum(colonnade_between)+1,gcd_value):
-    cnt+=1
-
-print(cnt-T)
+print(result - N + 1)
